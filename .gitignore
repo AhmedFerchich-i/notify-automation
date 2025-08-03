@@ -1,0 +1,78 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pipenv virtual environment
+# By default, pipenv creates venvs outside the project, but if you set PIPENV_VENV_IN_PROJECT=true,
+# it creates a `.venv` folder in the project root, which should be ignored
+.venv/
+
+# Pipenv files to track:
+# Keep Pipfile and Pipfile.lock in repo (do NOT ignore these)
+# If you have Pipfile.lock locally but want to ignore, uncomment below
+# Pipfile.lock
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Docker
+*.log
+docker-compose.override.yml
+.env
+
+# Database
+*.db
+*.sqlite3
+
+# Celery beat schedule file
+celerybeat-schedule
+
+# Logs
+logs/
+*.log
+
+# macOS
+.DS_Store
+
+# local env files
+.env
