@@ -11,3 +11,4 @@ email-validator
 celery[redis]
 redis
 pydantic-settings
+pandas

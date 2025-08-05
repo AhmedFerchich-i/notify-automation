@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     REDIS_URL: str
 
-    DATABASE_URL: str
+   
     CELERY_BROKER_URL: str
     CELERY_RESULT_BACKEND: str
     class Config:

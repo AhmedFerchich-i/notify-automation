@@ -1,5 +1,5 @@
 from celery import Celery
-from app.core.settings import settings
+from core.settings import settings
 
 celery_app = Celery(
     "notify_automation",
@@ -16,4 +16,4 @@ celery_app.conf.update(
 )
 
 # Auto-discover tasks from the tasks package
-celery_app.autodiscover_tasks(["app.tasks"])
+celery_app.autodiscover_tasks(["tasks"])

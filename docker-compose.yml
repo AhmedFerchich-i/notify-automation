@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     image: notify-automation-backend-image
     ports:
-      - "8000:8000"
+      - "1000:8000"
     volumes:
       - ./backend/app:/app
     env_file:
@@ -23,9 +23,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: notify-automation-celery-worker-image
-    command: celery -A app.celery_worker.celery_app worker --loglevel=info
+    command: celery -A celery_worker.celery_app worker --loglevel=info
     volumes:
       - ./backend/app:/app
+    environment:
+     - PYTHONPATH=/app
     env_file:
       - .env
     depends_on:
