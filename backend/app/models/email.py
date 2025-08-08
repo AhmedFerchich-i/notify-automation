@@ -1,11 +1,12 @@
+from uuid import uuid4
 from sqlalchemy import (
-    Column, Integer, String, Text, DateTime, ForeignKey, Enum
+    UUID, Boolean, Column, Integer, String, Text, DateTime, ForeignKey, Enum
 )
 from sqlalchemy.orm import relationship, declarative_base
 import enum
 from datetime import datetime
 
-Base = declarative_base()
+from db.database import Base
 
 class SendStatusEnum(str, enum.Enum):
     queued = "queued"
@@ -25,7 +26,7 @@ class Email(Base):
     
     # Relationship to recipients
     recipients = relationship("EmailRecipient", back_populates="email", cascade="all, delete-orphan")
-
+    schedule = relationship("Schedule", uselist=False, back_populates="email", cascade="all, delete-orphan")
 
 class EmailRecipient(Base):
     __tablename__ = "email_recipients"
@@ -53,3 +54,24 @@ class EmailSendStatus(Base):
     
     # Relationship back to recipient
     recipient = relationship("EmailRecipient", back_populates="send_statuses")
+class SenderEmail(Base):
+    __tablename__ = "sender_emails"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    email = Column(String, nullable=False)  # e.g. "me@gmail.com"
+    display_name = Column(String, nullable=True)  # Optional "Ahmed Ferchichi"
+
+    smtp_host = Column(String, nullable=False)  # e.g. smtp.gmail.com
+    smtp_port = Column(Integer, nullable=False)  # usually 465 (SSL) or 587 (STARTTLS)
+    smtp_username = Column(String, nullable=False)  # often same as email
+    smtp_password = Column(String, nullable=False)  # ideally encrypted or stored securely
+
+    use_tls = Column(Boolean, default=True)
+    use_ssl = Column(Boolean, default=False)
+
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="sender_emails")
