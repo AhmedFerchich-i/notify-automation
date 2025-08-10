@@ -15,6 +15,7 @@ services:
       - .env
     depends_on:
       - db
+      - rabbitmq
       - redis
 
   celery_worker:
@@ -23,15 +24,37 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: notify-automation-celery-worker-image
-    command: celery -A celery_worker.celery_app worker --loglevel=info
+    command: celery -A celery_app.celery_beat worker --loglevel=info
     volumes:
       - ./backend/app:/app
     environment:
-     - PYTHONPATH=/app
+      - PYTHONPATH=/app
     env_file:
       - .env
     depends_on:
       - backend
+      - rabbitmq
+      - redis
+      - db
+    restart: always
+
+  celery_beat:
+    container_name: notify-automation-celery-beat
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: notify-automation-celery-beat-image
+    command: celery -A celery_app.celery_beat beat --loglevel=info --scheduler celery.beat.PersistentScheduler --schedule /app/celerybeat-data/celerybeat-schedule
+    volumes:
+      - ./backend/app:/app
+      - beat-data:/app/celerybeat-data
+    environment:
+      - PYTHONPATH=/app
+    env_file:
+      - .env
+    depends_on:
+      - backend
+      - rabbitmq
       - redis
       - db
     restart: always
@@ -54,5 +77,17 @@ services:
     ports:
       - "6378:6379"
 
+  rabbitmq:
+    container_name: notify-automation-rabbitmq
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+
 volumes:
   pgdata-notify-automation:
+  beat-data:

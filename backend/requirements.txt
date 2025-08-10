@@ -8,7 +8,8 @@ pydantic
 python-jose[cryptography]
 passlib[bcrypt]
 email-validator
-celery[redis]
+celery
 redis
 pydantic-settings
 pandas
+python-multipart
