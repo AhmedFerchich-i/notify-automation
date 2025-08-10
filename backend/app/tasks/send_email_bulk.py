@@ -1,7 +1,7 @@
 
 
 from services.email_service import send_bulk_emails
-from backend.app.celery_app.celery_worker import celery_app
+from backend.app.celery_config.celery_worker import celery_app
 
 @celery_app.task
 def send_bulk_emails_task(

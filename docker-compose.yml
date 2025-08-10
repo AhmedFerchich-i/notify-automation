@@ -24,7 +24,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: notify-automation-celery-worker-image
-    command: celery -A celery_app.celery_beat worker --loglevel=info
+    command: celery -A celery_config.celery_beat worker --loglevel=info
     volumes:
       - ./backend/app:/app
     environment:
@@ -44,7 +44,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: notify-automation-celery-beat-image
-    command: celery -A celery_app.celery_beat beat --loglevel=info --scheduler celery.beat.PersistentScheduler --schedule /app/celerybeat-data/celerybeat-schedule
+    command: celery -A celery_config.celery_beat beat --loglevel=info --scheduler celery.beat.PersistentScheduler --schedule /app/celerybeat-data/celerybeat-schedule
     volumes:
       - ./backend/app:/app
       - beat-data:/app/celerybeat-data

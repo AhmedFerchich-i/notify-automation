@@ -2,7 +2,7 @@
 
 from typing import List, Optional, Union
 from app.services.email_service import process_email_list
-from backend.app.celery_app.celery_worker import celery_app
+from backend.app.celery_config.celery_worker import celery_app
 
 @celery_app.task
 def extract_emails_task(
